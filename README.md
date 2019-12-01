@@ -11,7 +11,7 @@ The back-end uses Ruby on Rails. The front-end is built in React (uses gem react
 
 * Database: this app does not require a database. The only data source is a file that contains a list of URLs.
 
-### Local deployment:
+### Local deployment
 To install rails and required gems:
 
 ```
