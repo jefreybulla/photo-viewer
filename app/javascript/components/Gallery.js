@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const api = "/api/v1/images?page=1"
+const api = "/api/v1/images"
 
 class Gallery extends React.Component {
   constructor(props){
@@ -10,10 +10,22 @@ class Gallery extends React.Component {
       apiResponse: [],
       status: "loading",
     };
+
+    this.handlePage = this.handlePage.bind(this);
+
   }
 
   componentDidMount(){
-    fetch(api,  {method:"GET"})
+    fetch(`${api}?page=1`,  {method:"GET"})
+      .then(response => response.json())
+      .then(data => this.setState({ apiResponse: data }))
+      .then(result => this.onSetResult(result));   //called after api call is completed
+  }
+
+  handlePage(page){
+    console.log(`Page: ${page}`);
+    this.setState({ status: "loading" });
+    fetch(`${api}?page=${page}`,  {method:"GET"})
       .then(response => response.json())
       .then(data => this.setState({ apiResponse: data }))
       .then(result => this.onSetResult(result));   //called after api call is completed
@@ -21,9 +33,9 @@ class Gallery extends React.Component {
 
   onSetResult(){
     console.log("api call completed");
-    console.log(this.state.apiResponse.images[0].url);
     this.setState({ status: "ready" });
   }
+
 
   renderImage(){
     let numberOfImages = 20
@@ -38,11 +50,22 @@ class Gallery extends React.Component {
     return items;
   }
 
+  renderPageButton(page){
+    return(
+      <div
+        className="col-1"
+        onClick={() => this.handlePage(page)}
+      >
+        {page}
+      </div>
+    )
+  }
+
 
   render () {
     if (this.state.status == "loading"){
       return (
-        <div>Loading images...</div>
+        <div className="text-center mt-5">Loading images...</div>
       );
     }
     else{
@@ -55,6 +78,11 @@ class Gallery extends React.Component {
           </div>
           <div className="row mt-2">
             {this.renderImage()}
+          </div>
+          <div className="row mt-5 justify-content-center">
+            {this.renderPageButton(1)}
+            {this.renderPageButton(2)}
+            {this.renderPageButton(3)}
           </div>
         </div>
       );
