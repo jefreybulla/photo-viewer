@@ -8,7 +8,7 @@ module Api::V1
         elsif params[:page] == '2'
           resultsArray =  imagesArray[20..39]
         elsif params[:page] == '3'
-          resultsArray =  imagesArray[39..49]
+          resultsArray =  imagesArray[40..49]
         else
           resultsArray = "no images"
         end

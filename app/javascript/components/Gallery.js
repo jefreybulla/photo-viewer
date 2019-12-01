@@ -23,7 +23,6 @@ class Gallery extends React.Component {
   }
 
   handlePage(page){
-    console.log(`Page: ${page}`);
     this.setState({ status: "loading" });
     fetch(`${api}?page=${page}`,  {method:"GET"})
       .then(response => response.json())
@@ -32,7 +31,6 @@ class Gallery extends React.Component {
   }
 
   onSetResult(){
-    console.log("api call completed");
     this.setState({ status: "ready" });
   }
 
