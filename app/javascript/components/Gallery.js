@@ -13,7 +13,7 @@ class Gallery extends React.Component {
     };
   }
 
-  //Load page 1 images at loadind time
+  //Load page-one images when page is loaded
   componentDidMount(){
     fetch(`${api}?page=1`,  {method:"GET"})
       .then(response => response.json())
@@ -29,12 +29,13 @@ class Gallery extends React.Component {
       .then(data => this.setState({ apiResponse: data }))
       .then(result => this.onSetResult(result));
   }
+
   //Method called after api result is received
   onSetResult(){
     this.setState({ status: "ready" });
   }
 
-  //Method to render image humbnails
+  //Method to render image thumbnails
   renderImage(){
     let items = [];
     for(let i=0;i<=this.state.apiResponse.results-1;i++){
@@ -82,7 +83,6 @@ class Gallery extends React.Component {
         </div>
       );
     }
-
   }
 }
 
