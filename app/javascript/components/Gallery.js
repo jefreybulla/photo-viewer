@@ -10,9 +10,6 @@ class Gallery extends React.Component {
       apiResponse: [],
       status: "loading",
     };
-
-    this.handlePage = this.handlePage.bind(this);
-
   }
 
   componentDidMount(){
@@ -34,9 +31,7 @@ class Gallery extends React.Component {
     this.setState({ status: "ready" });
   }
 
-
   renderImage(){
-    let numberOfImages = 20
     let items = [];
     for(let i=0;i<=this.state.apiResponse.results-1;i++){
       items.push(
@@ -50,15 +45,11 @@ class Gallery extends React.Component {
 
   renderPageButton(page){
     return(
-      <div
-        className="col-1"
-        onClick={() => this.handlePage(page)}
-      >
+      <div className="col-1" onClick={() => this.handlePage(page)}>
         {page}
       </div>
     )
   }
-
 
   render () {
     if (this.state.status == "loading"){
