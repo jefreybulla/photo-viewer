@@ -12,23 +12,23 @@ The back-end uses Ruby on Rails. The front-end is built in React (uses gem react
 * Database: this app does not require a database. The only data source is a file that contains a list of URLs.
 
 ### Local deployment
-To install rails and required gems:
+To install rails and required gems, run the following in the terminal:
 
 ```
-$bundle install
+$ bundle install
 ```
 
 To start the server:
 
 ```
-$rails server
+$ rails server
 ```
 
 ### Key files
 
 API:
 
->app/controller/api/v1/images_controller.rb
+>app/controllers/api/v1/images_controller.rb
 
 React component:
 
