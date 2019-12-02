@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const api = "/api/v1/images"
 
 class Gallery extends React.Component {
+  //apiResponse maintains the results returned by the API
   constructor(props){
     super(props);
     this.state = {
@@ -12,6 +13,7 @@ class Gallery extends React.Component {
     };
   }
 
+  //Load page 1 images at loadind time
   componentDidMount(){
     fetch(`${api}?page=1`,  {method:"GET"})
       .then(response => response.json())
@@ -19,18 +21,20 @@ class Gallery extends React.Component {
       .then(result => this.onSetResult(result));   //called after api call is completed
   }
 
+  //Method to handle a page request made by the user
   handlePage(page){
     this.setState({ status: "loading" });
     fetch(`${api}?page=${page}`,  {method:"GET"})
       .then(response => response.json())
       .then(data => this.setState({ apiResponse: data }))
-      .then(result => this.onSetResult(result));   //called after api call is completed
+      .then(result => this.onSetResult(result));
   }
-
+  //Method called after api result is received
   onSetResult(){
     this.setState({ status: "ready" });
   }
 
+  //Method to render image humbnails
   renderImage(){
     let items = [];
     for(let i=0;i<=this.state.apiResponse.results-1;i++){
@@ -43,6 +47,7 @@ class Gallery extends React.Component {
     return items;
   }
 
+  //Method to render pagination links
   renderPageButton(page){
     return(
       <div className="col-1" onClick={() => this.handlePage(page)}>
@@ -51,6 +56,7 @@ class Gallery extends React.Component {
     )
   }
 
+  //Method to render the output of this React component
   render () {
     if (this.state.status == "loading"){
       return (
