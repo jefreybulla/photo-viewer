@@ -1,8 +1,12 @@
 module Api::V1
   class ImagesController < ApplicationApiController
     def index
-      #Create an array of objects to be returned with the format {url: image_url}
-      imagesArray = File.readlines("public/images.csv").map { |line| {url: line.chop} }
+      #Create an array of objects to be returned with the format {url: image_url}. Add grayscale if requested. 
+      if params[:grayscale]
+        imagesArray = File.readlines("public/images.csv").map { |line| {url: line.chop+'?grayscale'} }
+      else
+        imagesArray = File.readlines("public/images.csv").map { |line| {url: line.chop} }
+      end
 
       resultsArray = []
 
@@ -31,7 +35,6 @@ module Api::V1
         else
           resultsArray = []
         end
-
       end
 
       render json: {results: resultsArray.length, images: resultsArray, currentPage: currentPage, totalPages: numberOfPages}
