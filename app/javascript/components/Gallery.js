@@ -70,12 +70,16 @@ class Gallery extends React.Component {
   }
 
   //Method to render pagination links
-  renderPageButton(page){
-    return(
-      <div className="col-1" onClick={() => this.handlePage(page)}>
-        <span className="react-action">{page}</span>
-      </div>
-    )
+  renderPageButton(){
+    let items = [];
+    for(let page=1;page<=this.state.apiResponse.totalPages;page++){
+      items.push(
+        <div className="col-1" onClick={() => this.handlePage(page)} key={page}>
+          <span className="react-action">{page}</span>
+        </div>
+      );
+    }
+    return items;
   }
 
   //Method to render the output of this React component
@@ -100,9 +104,7 @@ class Gallery extends React.Component {
             {this.renderImage()}
           </div>
           <div className="row mt-5 justify-content-center">
-            {this.renderPageButton(1)}
-            {this.renderPageButton(2)}
-            {this.renderPageButton(3)}
+            {this.renderPageButton()}
           </div>
         </div>
       );
