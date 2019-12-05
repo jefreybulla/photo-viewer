@@ -42,6 +42,17 @@ class Gallery extends React.Component {
       .then(result => this.onSetResult(result));
   }
 
+  handleSwitch(){
+    if (document.getElementById('customSwitch1').checked){
+      console.log("call api for grayscale");
+      //To do
+    }
+    else{
+      console.log("call api for color");
+      //To do
+    }
+  }
+
   //Method called after api result is received
   onSetResult(){
     this.setState({ status: "ready" });
@@ -108,7 +119,15 @@ class Gallery extends React.Component {
             </div>
           </div>
           <div className="row ml-1 mt-1">
-            {this.renderFilters()}
+            <div className="col-3">
+              {this.renderFilters()}
+            </div>
+            <div className="col-3">
+              <div className="custom-control custom-switch">
+                <input type="checkbox" className="custom-control-input" id="customSwitch1" onClick={() => this.handleSwitch()} />
+                <label className="custom-control-label" htmlFor="customSwitch1">Grayscale</label>
+              </div>
+            </div>
           </div>
           <div className="row mt-3">
             {this.renderImage()}
