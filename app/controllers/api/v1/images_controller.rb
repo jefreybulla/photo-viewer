@@ -18,18 +18,23 @@ module Api::V1
         resultsArray = imagesArray
       end
 
+      numberOfPages = 1
+      currentPage = 1
       #Handle pages if request includes ?page=value
       if params[:page]
         itemsPerPage = 20
-        firstItem = (params[:page].to_i - 1)*itemsPerPage
+        numberOfPages = (((resultsArray.count-1)/itemsPerPage))+1
+        currentPage = params[:page]
+        firstItem = (currentPage.to_i - 1)*itemsPerPage
         if resultsArray[firstItem]
           resultsArray = resultsArray[firstItem..firstItem+(itemsPerPage-1)]
         else
           resultsArray = []
         end
+
       end
 
-      render json: {results: resultsArray.length, images: resultsArray}
+      render json: {results: resultsArray.length, images: resultsArray, currentPage: currentPage, totalPages: numberOfPages}
     end
   end
 end
