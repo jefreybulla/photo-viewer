@@ -10,7 +10,7 @@ class Gallery extends React.Component {
     this.state = {
       apiResponse: [],
       status: "loading",
-      imageSize:[0.0],
+      currentImageSize:[0,0],
     };
   }
 
@@ -25,14 +25,21 @@ class Gallery extends React.Component {
   //Method to handle a page request made by the user
   handlePage(page){
     this.setState({ status: "loading" });
-    fetch(`${api}?page=${page}`,  {method:"GET"})
+    let query = (this.state.currentImageSize[0] == 0) ? `${api}?page=${page}` : `${api}?page=${page}&width=${this.state.currentImageSize[0]}&height=${this.state.currentImageSize[1]}`;
+    fetch(query,{method:"GET"})
       .then(response => response.json())
       .then(data => this.setState({ apiResponse: data }))
       .then(result => this.onSetResult(result));
   }
 
+  //Method to handle the size filter request made by the user
   sizeFilter(w,h){
-    console.log(`this is sizeFilter w${w} h${h}`);
+    this.setState({ status: "loading", currentImageSize: [w,h] });
+    let query = (w == 0) ? `${api}?page=page1` : `${api}?width=${w}&height=${h}&page=1`;
+    fetch(query, {method:"GET"})
+      .then(response => response.json())
+      .then(data => this.setState({ apiResponse: data }))
+      .then(result => this.onSetResult(result));
   }
 
   //Method called after api result is received
@@ -40,6 +47,7 @@ class Gallery extends React.Component {
     this.setState({ status: "ready" });
   }
 
+  //method to render the filters dropdown menu
   renderFilters(){
     return (
       <div className="dropdown">
@@ -51,6 +59,8 @@ class Gallery extends React.Component {
           <span className="dropdown-item react-action" onClick={() => this.sizeFilter(100,100)}>100x100</span>
           <span className="dropdown-item react-action" onClick={() => this.sizeFilter(250,250)}>250x250</span>
           <span className="dropdown-item react-action" onClick={() => this.sizeFilter(300,200)}>300x200</span>
+          <span className="dropdown-item react-action" onClick={() => this.sizeFilter(300,300)}>300x300</span>
+          <span className="dropdown-item react-action" onClick={() => this.sizeFilter(400,200)}>400x200</span>
         </div>
       </div>
     );
