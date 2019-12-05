@@ -16,30 +16,22 @@ class Gallery extends React.Component {
 
   //Load page-one images when page is loaded
   componentDidMount(){
-    fetch(`${api}?page=1`,  {method:"GET"})
-      .then(response => response.json())
-      .then(data => this.setState({ apiResponse: data }))
-      .then(result => this.onSetResult(result));   //called after api call is completed
+    let query = `${api}?page=1`;
+    this.makeApiRequest(query);
   }
 
   //Method to handle a page request made by the user
   handlePage(page){
     this.setState({ status: "loading" });
     let query = (this.state.currentImageSize[0] == 0) ? `${api}?page=${page}` : `${api}?page=${page}&width=${this.state.currentImageSize[0]}&height=${this.state.currentImageSize[1]}`;
-    fetch(query,{method:"GET"})
-      .then(response => response.json())
-      .then(data => this.setState({ apiResponse: data }))
-      .then(result => this.onSetResult(result));
+    this.makeApiRequest(query);
   }
 
   //Method to handle the size filter request made by the user
   sizeFilter(w,h){
     this.setState({ status: "loading", currentImageSize: [w,h] });
     let query = (w == 0) ? `${api}?page=page1` : `${api}?width=${w}&height=${h}&page=1`;
-    fetch(query, {method:"GET"})
-      .then(response => response.json())
-      .then(data => this.setState({ apiResponse: data }))
-      .then(result => this.onSetResult(result));
+    this.makeApiRequest(query);
   }
 
   handleSwitch(){
@@ -53,6 +45,12 @@ class Gallery extends React.Component {
     }
   }
 
+  makeApiRequest(query){
+    fetch(query,  {method:"GET"})
+      .then(response => response.json())
+      .then(data => this.setState({ apiResponse: data }))
+      .then(result => this.onSetResult(result));   //called after api call is completed
+  }
   //Method called after api result is received
   onSetResult(){
     this.setState({ status: "ready" });
