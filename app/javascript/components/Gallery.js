@@ -34,14 +34,18 @@ class Gallery extends React.Component {
     this.makeApiRequest(query);
   }
 
+  //Method to handle grayscal toggle
   handleSwitch(){
+    //case for grayscale
     if (document.getElementById('customSwitch1').checked){
       console.log("call api for grayscale");
-      //To do
+      let query = (this.state.currentImageSize[0] == 0) ? `${api}?page=${this.state.apiResponse.currentPage}&grayscale=true`:`${api}?page=${this.state.apiResponse.currentPage}&width=${this.state.currentImageSize[0]}&height=${this.state.currentImageSize[1]}&grayscale=true`;
+      this.makeApiRequest(query);
     }
+    //case for color
     else{
-      console.log("call api for color");
-      //To do
+      let query = (this.state.currentImageSize[0] == 0) ? `${api}?page=${this.state.apiResponse.currentPage}`: `${api}?page=${this.state.apiResponse.currentPage}&width=${this.state.currentImageSize[0]}&height=${this.state.currentImageSize[1]}`;
+      this.makeApiRequest(query);
     }
   }
 
